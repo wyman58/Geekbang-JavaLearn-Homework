@@ -1,6 +1,5 @@
 package com.wymansstudio.GeekbangJavaLearnHomeworkW01;
 
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.IOException;
@@ -22,14 +21,15 @@ public class GeekbangJavaLearnHomeworkW01Application extends ClassLoader{
 		//GeekbangJavaLearnHomeworkW01Application app = new GeekbangJavaLearnHomeworkW01Application();
 
 		try{
-			Object hello = new GeekbangJavaLearnHomeworkW01Application().findClass("Hello").newInstance();
-			Class clazz = hello.getClass();
-			Method[] methods = clazz.getDeclaredMethods();
+			GeekbangJavaLearnHomeworkW01Application app = new GeekbangJavaLearnHomeworkW01Application();
+			Class<?> cls = app.findClass("Hello");
+			Method[] methods = cls.getDeclaredMethods();
 			for(Method method : methods){
 				System.out.println(method.getName());
 				for(Parameter p : method.getParameters()){
 					System.out.println(p.getName());
 				}
+				Object hello = cls.getConstructor().newInstance();
 				method.invoke(hello);
 			}
 
@@ -39,13 +39,14 @@ public class GeekbangJavaLearnHomeworkW01Application extends ClassLoader{
 
 		}catch (InstantiationException e){
 
+		}catch (InvocationTargetException e){
+
 		}catch (IllegalArgumentException e){
 
-		}catch (InvocationTargetException e){
+		}catch (NoSuchMethodException e){
 
 		}
 	}
-
 
 	@Override
 	protected Class<?> findClass(String name) throws ClassNotFoundException {
@@ -73,7 +74,6 @@ public class GeekbangJavaLearnHomeworkW01Application extends ClassLoader{
 			}
 			System.out.println("Decrypted Byte:");
 			System.out.println(hex.toString());
-
 
 			cls = defineClass(name, array, 0, array.length);
 			System.out.println(cls.getClassLoader().toString());
