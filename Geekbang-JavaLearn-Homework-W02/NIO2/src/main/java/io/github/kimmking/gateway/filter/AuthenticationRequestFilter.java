@@ -10,13 +10,17 @@ public class AuthenticationRequestFilter implements HttpRequestFilter{
 
     @Override
     public void filter(FullHttpRequest fullRequest, ChannelHandlerContext ctx) {
-        Optional header = Optional.ofNullable(fullRequest.headers().get("Authentication"));
-        header.ifPresent(new Consumer() {
+        Optional.ofNullable(fullRequest.headers().get("Authentication")).ifPresent(new Consumer() {
             @Override
             public void accept(Object o) {
-                System.out.println("Authentication Passed");
+                if(o.equals("Password")) {
+                    System.out.println("Authentication Passed");
+                } else {
+                    System.out.println("Authentication Failed");
+                }
             }
         });
+
 
     }
 }
