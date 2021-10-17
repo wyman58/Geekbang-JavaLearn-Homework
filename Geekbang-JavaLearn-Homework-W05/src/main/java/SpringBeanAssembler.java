@@ -8,6 +8,7 @@ import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.support.GenericXmlApplicationContext;
 
 //@Import(MyBeanImport.class)
 public class SpringBeanAssembler {
@@ -45,19 +46,19 @@ public class SpringBeanAssembler {
 
 
     private void assembleByBeanName(){
-        BeanFactory beanFactory = new ClassPathXmlApplicationContext("classpath:/application-context.xml");
+        BeanFactory beanFactory = new ClassPathXmlApplicationContext("classpath:/META-INF/application-context.xml");
         Student student = (Student) beanFactory.getBean("student1");
         System.out.println("Assemble via XML and search by Name:" + student);
     }
 
     private void assembleByType(){
-        BeanFactory beanFactory = new ClassPathXmlApplicationContext("classpath:/application-context.xml");
+        BeanFactory beanFactory = new ClassPathXmlApplicationContext("classpath:/META-INF/application-context.xml");
         Student student = (Student) beanFactory.getBean(Student.class);
         System.out.println("Assemble via XML and search by Name:" + student);
     }
 
     private void testTeachAssembling(){
-        BeanFactory beanFactory = new ClassPathXmlApplicationContext("classpath:/application-context.xml");
+        BeanFactory beanFactory = new ClassPathXmlApplicationContext("classpath:/META-INF/application-context.xml");
         School school = (School) beanFactory.getBean("school");
         school.performTeach();
     }
