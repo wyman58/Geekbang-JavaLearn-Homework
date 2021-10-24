@@ -1,6 +1,6 @@
 CREATE DATABASE  IF NOT EXISTS `ecom` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `ecom`;
--- MySQL dump 10.13  Distrib 8.0.16, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.16, for macos10.14 (x86_64)
 --
 -- Host: localhost    Database: ecom
 -- ------------------------------------------------------
@@ -26,8 +26,10 @@ DROP TABLE IF EXISTS `categories`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `categories` (
   `CategoryID` int(11) NOT NULL,
-  `CategoryName` char(45) DEFAULT NULL,
-  `Description` varchar(200) DEFAULT NULL,
+  `CategoryName` char(45) NOT NULL,
+  `Description` varchar(200) NOT NULL,
+  `CreatedDate` datetime NOT NULL,
+  `ChangedDate` datetime NOT NULL,
   PRIMARY KEY (`CategoryID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -41,12 +43,14 @@ DROP TABLE IF EXISTS `customers`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `customers` (
   `CustomerID` int(11) NOT NULL,
-  `CustomerName` char(45) DEFAULT NULL,
-  `ContactName` char(45) DEFAULT NULL,
-  `Address` char(45) DEFAULT NULL,
-  `City` char(20) DEFAULT NULL,
-  `PostalCode` char(10) DEFAULT NULL,
-  `Country` char(20) DEFAULT NULL,
+  `CustomerName` char(45) NOT NULL,
+  `ContactName` char(45) NOT NULL,
+  `Address` char(45) NOT NULL,
+  `City` char(20) NOT NULL,
+  `PostalCode` char(10) NOT NULL,
+  `Country` char(20) NOT NULL,
+  `CreatedDate` datetime NOT NULL,
+  `ChangedDate` datetime NOT NULL,
   PRIMARY KEY (`CustomerID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -60,11 +64,13 @@ DROP TABLE IF EXISTS `employees`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `employees` (
   `EmployeeID` int(11) NOT NULL,
-  `LastName` char(45) DEFAULT NULL,
-  `FirstName` char(45) DEFAULT NULL,
-  `Birthday` date DEFAULT NULL,
-  `PhotoPath` varchar(200) DEFAULT NULL,
-  `Notes` varchar(500) DEFAULT NULL,
+  `LastName` char(45) NOT NULL,
+  `FirstName` char(45) NOT NULL,
+  `Birthday` date NOT NULL,
+  `PhotoPath` varchar(200) NOT NULL,
+  `Notes` varchar(500) NOT NULL,
+  `CreatedDate` datetime NOT NULL,
+  `ChangedDate` datetime NOT NULL,
   PRIMARY KEY (`EmployeeID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -78,9 +84,11 @@ DROP TABLE IF EXISTS `orderdetails`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `orderdetails` (
   `OrderDetailID` int(11) NOT NULL,
-  `OrderID` int(11) DEFAULT NULL,
-  `ProductID` int(11) DEFAULT NULL,
-  `Quantity` int(11) DEFAULT NULL,
+  `OrderID` int(11) NOT NULL,
+  `ProductID` int(11) NOT NULL,
+  `Quantity` int(11) NOT NULL,
+  `CreatedDate` datetime NOT NULL,
+  `ChangedDate` datetime NOT NULL,
   PRIMARY KEY (`OrderDetailID`),
   KEY `OrderID_idx` (`OrderID`),
   KEY `ProductID_idx` (`ProductID`),
@@ -98,10 +106,12 @@ DROP TABLE IF EXISTS `orders`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `orders` (
   `OrderID` int(11) NOT NULL,
-  `CustomerID` int(11) DEFAULT NULL,
-  `EmployeeID` int(11) DEFAULT NULL,
-  `OrderDate` datetime DEFAULT NULL,
-  `ShipperID` int(11) DEFAULT NULL,
+  `CustomerID` int(11) NOT NULL,
+  `EmployeeID` int(11) NOT NULL,
+  `OrderDate` datetime NOT NULL,
+  `ShipperID` int(11) NOT NULL,
+  `CreatedDate` datetime NOT NULL,
+  `ChangedDate` datetime NOT NULL,
   PRIMARY KEY (`OrderID`),
   KEY `CustomerID_idx` (`CustomerID`),
   KEY `EmployeeID_idx` (`EmployeeID`),
@@ -121,11 +131,13 @@ DROP TABLE IF EXISTS `products`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `products` (
   `ProductID` int(11) NOT NULL,
-  `ProductName` char(45) DEFAULT NULL,
-  `SupplierID` int(11) DEFAULT NULL,
-  `CategoryID` int(11) DEFAULT NULL,
-  `Unit` int(11) DEFAULT NULL,
-  `Price` decimal(10,2) DEFAULT NULL,
+  `ProductName` char(45) NOT NULL,
+  `SupplierID` int(11) NOT NULL,
+  `CategoryID` int(11) NOT NULL,
+  `Unit` int(11) NOT NULL,
+  `Price` decimal(10,2) NOT NULL,
+  `CreatedDate` datetime NOT NULL,
+  `ChangedDate` datetime NOT NULL,
   PRIMARY KEY (`ProductID`),
   KEY `SupplierID_idx` (`SupplierID`),
   KEY `CategoryID_idx` (`CategoryID`),
@@ -143,8 +155,10 @@ DROP TABLE IF EXISTS `shippers`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `shippers` (
   `ShipperID` int(11) NOT NULL,
-  `ShipperName` char(45) DEFAULT NULL,
-  `Phone` char(20) DEFAULT NULL,
+  `ShipperName` char(45) NOT NULL,
+  `Phone` char(20) NOT NULL,
+  `CreatedDate` datetime NOT NULL,
+  `ChangedDate` datetime NOT NULL,
   PRIMARY KEY (`ShipperID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -158,13 +172,15 @@ DROP TABLE IF EXISTS `suppliers`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `suppliers` (
   `SupplierID` int(11) NOT NULL,
-  `SupplierName` char(45) DEFAULT NULL,
-  `ContactName` char(45) DEFAULT NULL,
-  `Address` char(100) DEFAULT NULL,
-  `City` char(20) DEFAULT NULL,
-  `PostalCode` char(10) DEFAULT NULL,
-  `Country` char(20) DEFAULT NULL,
-  `Phone` char(20) DEFAULT NULL,
+  `SupplierName` char(45) NOT NULL,
+  `ContactName` char(45) NOT NULL,
+  `Address` char(100) NOT NULL,
+  `City` char(20) NOT NULL,
+  `PostalCode` char(10) NOT NULL,
+  `Country` char(20) NOT NULL,
+  `Phone` char(20) NOT NULL,
+  `CreatedDate` datetime NOT NULL,
+  `ChangedDate` datetime NOT NULL,
   PRIMARY KEY (`SupplierID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -178,4 +194,4 @@ CREATE TABLE `suppliers` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-23 10:07:27
+-- Dump completed on 2021-10-24 21:12:29
