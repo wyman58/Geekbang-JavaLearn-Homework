@@ -25,6 +25,10 @@ public class OrderController {
         System.out.println("Total Time: " + (System.currentTimeMillis() - currentTime) + "ms");
     }
 
+    //The result is around 13s for 1mil records.
+    //need to adjust the max_allowed_packet
+    //The worst result is by using Hibernation Execute the SQL one by one
+    //The second worse is by using batchUpdate and JDBCTemplate
     private void useJDBC() {
         String insertStatement = "insert into orders values (?, 1, 1, '2021-10-29', 1, '2021-10-29', '2021-10-29')";
         Connection connection = null;
