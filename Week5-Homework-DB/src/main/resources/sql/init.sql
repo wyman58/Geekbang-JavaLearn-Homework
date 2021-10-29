@@ -1,0 +1,1 @@
+create table USER (ID INTEGER, NAME varchar(25));
