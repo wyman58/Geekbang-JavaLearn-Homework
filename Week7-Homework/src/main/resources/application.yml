@@ -2,12 +2,25 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/ecom?rewriteBatchedStatements=true
-    username: test
-    password: 123456
+#    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/ecom?rewriteBatchedStatements=true
+#    username: test
+#    password: 123456
   jpa:
     hibernate:
       ddl-auto: none
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
+
+
+client-a:
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3316/ecom?rewriteBatchedStatements=true
+    username: test
+    password: 123456
+
+client-b:
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3326/ecom?rewriteBatchedStatements=true
+    username: test
+    password: 123456

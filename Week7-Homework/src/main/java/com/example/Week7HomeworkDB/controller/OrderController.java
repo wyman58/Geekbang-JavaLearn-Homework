@@ -1,20 +1,24 @@
 package com.example.Week7HomeworkDB.controller;
 
 
+import com.example.Week7HomeworkDB.datasource.ClientDatabase;
+import com.example.Week7HomeworkDB.datasource.ClientDatabaseContextHolder;
+import com.example.Week7HomeworkDB.entity.Order;
 import com.example.Week7HomeworkDB.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.*;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "order")
 public class OrderController {
+
     @Autowired
     private OrderRepository orderRepository;
+
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -58,4 +62,12 @@ public class OrderController {
             }
         }
 	}
+
+    @RequestMapping(value = "/order/{id}", method = RequestMethod.GET)
+    public void getOrder(@PathVariable("id") Long id){
+        ClientDatabaseContextHolder.set(ClientDatabase.CLIENT_B);
+        Optional<Order> order = orderRepository.findById(id);
+        System.out.println(order);
+        ClientDatabaseContextHolder.clear();
+    }
 }
