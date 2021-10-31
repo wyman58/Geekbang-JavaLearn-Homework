@@ -20,18 +20,18 @@ public class RoutingConfiguration {
     @Autowired
     ClientBConfig clientBConfig;
 
-    @Bean
-    public DataSource clientDatasource(){
-        Map<Object,Object> targetDatasources = new HashMap<>();
-        DataSource clientADatasource = clientADatasource();
-        DataSource clientBDatasource = clientBDatasource();
-        targetDatasources.put(ClientDatabase.CLIENT_A, clientADatasource);
-        targetDatasources.put(ClientDatabase.CLIENT_B, clientBDatasource);
-        ClientDataSourceRouter clientDataSourceRouter = new ClientDataSourceRouter();
-        clientDataSourceRouter.setTargetDataSources(targetDatasources);
-        clientDataSourceRouter.setDefaultTargetDataSource(clientADatasource);
-        return clientDataSourceRouter;
-    }
+//    @Bean
+//    public DataSource clientDatasource(){
+//        Map<Object,Object> targetDatasources = new HashMap<>();
+//        DataSource clientADatasource = clientADatasource();
+//        DataSource clientBDatasource = clientBDatasource();
+//        targetDatasources.put(ClientDatabase.CLIENT_A, clientADatasource);
+//        targetDatasources.put(ClientDatabase.CLIENT_B, clientBDatasource);
+//        ClientDataSourceRouter clientDataSourceRouter = new ClientDataSourceRouter();
+//        clientDataSourceRouter.setTargetDataSources(targetDatasources);
+//        clientDataSourceRouter.setDefaultTargetDataSource(clientADatasource);
+//        return clientDataSourceRouter;
+//    }
 
     private DataSource clientADatasource(){
         DriverManagerDataSource dataSource = new DriverManagerDataSource();

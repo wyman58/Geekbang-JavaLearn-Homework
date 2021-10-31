@@ -1,7 +1,7 @@
 
 spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
 #    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/ecom?rewriteBatchedStatements=true
 #    username: test
 #    password: 123456
@@ -11,7 +11,34 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
-
+  shardingsphere:
+    schema:
+      name: ecom
+    datasource:
+      names: m1, s1
+      m1:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://${MYSQL_HOST:localhost}:3316/ecom?rewriteBatchedStatements=true
+        username: test
+        password: 123456
+      s1:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://${MYSQL_HOST:localhost}:3326/ecom?rewriteBatchedStatements=true
+        username: test
+        password: 123456
+    rules:
+      readwrite-splitting:
+        data-sources:
+          ds0:
+            write-data-source-name: m1
+            read-data-source-names: s1
+#  sharding:
+#    master-slave-rules:
+#      ds0:
+#        master-data-source-name: m1
+#        slave-data-source-names: s1
 
 client-a:
   datasource:
@@ -24,3 +51,4 @@ client-b:
     url: jdbc:mysql://${MYSQL_HOST:localhost}:3326/ecom?rewriteBatchedStatements=true
     username: test
     password: 123456
+
