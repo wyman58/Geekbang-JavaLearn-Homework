@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.Optional;
 
 @RestController
@@ -68,6 +69,21 @@ public class OrderController {
         ClientDatabaseContextHolder.set(ClientDatabase.CLIENT_B);
         Optional<Order> order = orderRepository.findById(id);
         System.out.println(order);
+        ClientDatabaseContextHolder.clear();
+    }
+
+    @PostMapping(value = "/order/{id}")
+    public void addOrder(@PathVariable("id") Long id){
+        System.out.println(id);
+        ClientDatabaseContextHolder.set(ClientDatabase.CLIENT_A);
+        Order newOrder = new Order();
+        newOrder.setOrderID(id);
+        newOrder.setShipperID(1L);
+        newOrder.setEmployeeID(1L);
+        newOrder.setCustomerID(1L);
+        newOrder.setOrderDate(LocalDate.now());
+        orderRepository.save(newOrder);
+        //System.out.println(order);
         ClientDatabaseContextHolder.clear();
     }
 }
