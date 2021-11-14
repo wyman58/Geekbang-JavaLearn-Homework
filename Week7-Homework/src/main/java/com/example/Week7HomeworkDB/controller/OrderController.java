@@ -80,7 +80,7 @@ public class OrderController {
         newOrder.setOrderID(id);
         newOrder.setShipperID(1L);
         newOrder.setEmployeeID(1L);
-        newOrder.setCustomerID(1L);
+        newOrder.setCustomerID(Double.valueOf(Math.random() * 10).longValue());
         newOrder.setOrderDate(LocalDate.now());
         orderRepository.save(newOrder);
         //System.out.println(order);

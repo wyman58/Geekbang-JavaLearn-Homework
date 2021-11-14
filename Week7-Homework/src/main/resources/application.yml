@@ -15,36 +15,64 @@ spring:
     schema:
       name: ecom
     datasource:
-      names: m1, s1
-      m1:
+      names: m1-1,m1-2
+      m1-1:
         type: com.zaxxer.hikari.HikariDataSource
         driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://localhost:3316/ecom?rewriteBatchedStatements=true
+        jdbc-url: jdbc:mysql://localhost:3316/ecom1?rewriteBatchedStatements=true
         username: test
         password: 123456
-      s1:
+      m1-2:
         type: com.zaxxer.hikari.HikariDataSource
         driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://localhost:3326/ecom?rewriteBatchedStatements=true
+        jdbc-url: jdbc:mysql://localhost:3316/ecom2?rewriteBatchedStatements=true
         username: test
         password: 123456
+#      s1-1:
+#        type: com.zaxxer.hikari.HikariDataSource
+#        driver-class-name: com.mysql.cj.jdbc.Driver
+#        jdbc-url: jdbc:mysql://localhost:3326/ecom1?rewriteBatchedStatements=true
+#        username: test
+#        password: 123456
+#      s1-2:
+#        type: com.zaxxer.hikari.HikariDataSource
+#        driver-class-name: com.mysql.cj.jdbc.Driver
+#        jdbc-url: jdbc:mysql://localhost:3326/ecom2?rewriteBatchedStatements=true
+#        username: test
+#        password: 123456
     props:
       sql:
         show: true
-    masterslave:
-      name: ms
-      master-data-source-name: m1
-      slave-data-source-names: s1
+    sharding:
+      tables:
+        orders:
+          actual-data-nodes: m1-$->{1..2}.orders$->{1..16}
+          key-generator:
+            column: orderid
+            type: SNOWFLAKE
+          table-strategy:
+            inline:
+              sharding-column: orderid
+              algorithm-expression: orders$->{orderid % 2 + 1}
+          database-strategy:
+            inline:
+              sharding-column: customerid
+              algorithm-expression: m1-$->{customerid % 2 + 1}
 
-client-a:
-  datasource:
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:3316/ecom?rewriteBatchedStatements=true
-    username: test
-    password: 123456
+#    masterslave:
+#      name: ms
+#      master-data-source-name: m1
+#      slave-data-source-names: s1
 
-client-b:
-  datasource:
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:3326/ecom?rewriteBatchedStatements=true
-    username: test
-    password: 123456
+#client-a:
+#  datasource:
+#    url: jdbc:mysql://${MYSQL_HOST:localhost}:3316/ecom?rewriteBatchedStatements=true
+#    username: test
+#    password: 123456
+#
+#client-b:
+#  datasource:
+#    url: jdbc:mysql://${MYSQL_HOST:localhost}:3326/ecom?rewriteBatchedStatements=true
+#    username: test
+#    password: 123456
 
