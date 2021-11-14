@@ -19,26 +19,22 @@ spring:
       m1:
         type: com.zaxxer.hikari.HikariDataSource
         driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://${MYSQL_HOST:localhost}:3316/ecom?rewriteBatchedStatements=true
+        jdbc-url: jdbc:mysql://localhost:3316/ecom?rewriteBatchedStatements=true
         username: test
         password: 123456
       s1:
         type: com.zaxxer.hikari.HikariDataSource
         driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://${MYSQL_HOST:localhost}:3326/ecom?rewriteBatchedStatements=true
+        jdbc-url: jdbc:mysql://localhost:3326/ecom?rewriteBatchedStatements=true
         username: test
         password: 123456
-    rules:
-      readwrite-splitting:
-        data-sources:
-          ds0:
-            write-data-source-name: m1
-            read-data-source-names: s1
-#  sharding:
-#    master-slave-rules:
-#      ds0:
-#        master-data-source-name: m1
-#        slave-data-source-names: s1
+    props:
+      sql:
+        show: true
+    masterslave:
+      name: ms
+      master-data-source-name: m1
+      slave-data-source-names: s1
 
 client-a:
   datasource:
