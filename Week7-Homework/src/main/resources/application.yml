@@ -49,11 +49,11 @@ spring:
           actual-data-nodes: m1-$->{1..2}.orders$->{1..16}
           key-generator:
             column: orderid
-            type: SNOWFLAKE
+            type: snowflake
           table-strategy:
             inline:
-              sharding-column: orderid
-              algorithm-expression: orders$->{orderid % 2 + 1}
+              sharding-column: OrderID
+              algorithm-expression: orders$->{OrderID % 16 + 1}
           database-strategy:
             inline:
               sharding-column: customerid
