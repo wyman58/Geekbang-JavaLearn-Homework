@@ -1,13 +1,16 @@
 
 server:
-  port: 8081
+  port: 8082
 
+debug: true
 spring:
 #  datasource:
 #    driver-class-name: com.mysql.cj.jdbc.Driver
 #    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/ecom?rewriteBatchedStatements=true
 #    username: test
 #    password: 123456
+  main:
+    allow-bean-definition-overriding: true
   jpa:
     hibernate:
       ddl-auto: none
@@ -64,6 +67,17 @@ spring:
             inline:
               sharding-column: customerid
               algorithm-expression: m1-$->{customerid % 2 + 1}
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
+feign:
+  hystrix:
+    enabled : false
 
 #    masterslave:
 #      name: ms

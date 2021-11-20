@@ -1,0 +1,60 @@
+server:
+  port: 8761
+
+spring:
+  application:
+    name: springcloud-eureka
+
+eureka:
+  instance:
+    # 应用实例主机名
+    hostname: localhost
+    # 客户端在注册时使用自己的IP而不是主机名
+    preferIpAddress: true
+    # 服务续约(心跳)频率，单位：秒，缺省30
+    lease-renewal-interval-in-seconds: 2
+    # 服务失效时间，失效的服务将被剔除。单位：秒，默认：90
+    lease-expiration-duration-in-seconds: 6
+  server:
+    # peerEurekaNodesUpdateIntervalMs: 60000
+    # 当Eureka服务器在短时间内丢失过多客户端时，自我保护模式可使服务端不再删除失去连接的客户端
+    enableSelfPreservation: false
+    # Eureka服务器清理无效节点的时间间隔，单位：毫秒，缺省：60000，即60秒
+    evictionIntervalTimerInMs: 5000
+    # 健康检查页面的URL，相对路径，默认使用 HTTP 访问，如需使用 HTTPS则要使用绝对路径配置，缺省：/health
+    status-page-url-path: /info
+    # 健康检查页面的URL，相对路径，默认使用 HTTP 访问，如需使用 HTTPS则要使用绝对路径配置，缺省：/health
+    health-check-url-path: /health
+  client:
+    # 是否向注册中心注册自己，缺省：true
+    registerWithEureka: false
+    # 是否从Eureka获取注册信息，缺省：true    # 一般情况下，Eureka服务端是不需要的
+    fetchRegistry: false
+    serviceUrl:
+    # Eureka服务器的地址，类型为HashMap，缺省的Key为 defaultZone；缺省的Value为 http://localhost:8761/eureka
+    # 如果服务注册中心为高可用集群时，多个注册中心地址以逗号分隔。
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka
+    # 连接Eureka服务器的超时时间，单位：秒，缺省：5
+    eureka-server-connect-timeout-seconds: 5
+    # 从Eureka服务器读取信息的超时时间，单位：秒，缺省：8
+    eureka-server-read-timeout-seconds: 8
+    # 获取实例时是否只保留状态为 UP 的实例，缺省：true
+    filter-only-up-instances: true
+    # Eureka服务端连接空闲时的关闭时间，单位：秒，缺省：30
+    eureka-connection-idle-timeout-seconds: 30
+    # 从Eureka客户端到所有Eureka服务端的连接总数，缺省：200
+    eureka-server-total-connections: 200
+    # 从Eureka客户端到每个Eureka服务主机的连接总数，缺省：50
+    eureka-server-total-connections-per-host: 50
+  healthcheck:
+    eurekaServiceUrlPollIntervalSeconds: 60
+
+#endpoints:
+#  health:
+#    sensitive: false
+
+
+
+
+
+

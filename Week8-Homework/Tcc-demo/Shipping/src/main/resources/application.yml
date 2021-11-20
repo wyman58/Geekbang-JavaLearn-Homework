@@ -65,6 +65,13 @@ spring:
               sharding-column: customerid
               algorithm-expression: m1-$->{customerid % 2 + 1}
 
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
 #    masterslave:
 #      name: ms
 #      master-data-source-name: m1
