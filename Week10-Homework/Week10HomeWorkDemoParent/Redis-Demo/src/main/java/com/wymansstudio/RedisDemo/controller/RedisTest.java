@@ -1,6 +1,7 @@
 package com.wymansstudio.RedisDemo.controller;
 
 import com.wymansstudio.RedisDemo.client.StockManagementServiceClient;
+import com.wymansstudio.RedisDemo.service.RedisOrderPublisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.StringUtils;
@@ -16,6 +17,9 @@ import java.util.concurrent.TimeUnit;
 public class RedisTest {
     @Autowired
     private RedisTemplate redisTemplate;
+
+    @Autowired
+    private RedisOrderPublisher redisOrderPublisher;
 
     @Autowired
     private StockManagementServiceClient stockManagementServiceClient;
@@ -43,6 +47,9 @@ public class RedisTest {
             if (lockValue.equals(value)) {
                 redisTemplate.opsForValue().getAndDelete("lock");
             }
+
+            redisOrderPublisher.publish("New Order");
+
         }else{
             try{
                 Thread.sleep(100);
