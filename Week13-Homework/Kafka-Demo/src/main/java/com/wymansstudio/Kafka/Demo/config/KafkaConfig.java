@@ -1,5 +1,8 @@
 package com.wymansstudio.Kafka.Demo.config;
 
+import org.apache.kafka.clients.admin.AdminClient;
+import org.apache.kafka.clients.admin.AdminClientConfig;
+import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.IntegerDeserializer;
@@ -45,6 +48,25 @@ public class KafkaConfig {
         return template;
     }
 
+    @Bean
+    public NewTopic initialTopic() {
+        return new NewTopic("topic.quick.demo",3, (short) 1 );
+    }
+
+    @Bean
+    public KafkaAdmin kafkaAdmin() {
+        Map<String, Object> props = new HashMap<>();
+        //配置Kafka实例的连接地址
+        props.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9001");
+        KafkaAdmin admin = new KafkaAdmin(props);
+        return admin;
+    }
+
+    @Bean
+    public AdminClient adminClient() {
+        return AdminClient.create(kafkaAdmin().getConfigurationProperties());
+    }
+
     //消费者配置参数
     private Map<String, Object> consumerProps() {
         Map<String, Object> props = new HashMap<>();
@@ -84,4 +106,6 @@ public class KafkaConfig {
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         return props;
     }
+
+
 }
